@@ -65,7 +65,12 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/html.form.class.php';
 
 // Local classes
 require_once __DIR__ . '/../class/zaprimanje_helper.class.php';
+require_once __DIR__ . '/../class/suradnici_helper.class.php';
 require_once __DIR__ . '/../class/changelog_sistem.class.php';
+
+// Ensure tables exist
+Zaprimanje_Helper::ensureZaprimanjaTable($db);
+Suradnici_Helper::ensurePosiljareljiTable($db);
 
 // Load translation files
 $langs->loadLangs(array("seup@seup"));

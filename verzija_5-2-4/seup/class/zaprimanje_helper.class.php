@@ -385,6 +385,9 @@ class Zaprimanje_Helper
 
     public static function searchPosiljatelji($db, $query)
     {
+        require_once __DIR__ . '/suradnici_helper.class.php';
+        Suradnici_Helper::ensurePosiljareljiTable($db);
+
         $results = [];
 
         $sql = "SELECT rowid, naziv, adresa, email, telefon, oib

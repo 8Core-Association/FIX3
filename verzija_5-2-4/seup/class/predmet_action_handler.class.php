@@ -626,8 +626,10 @@ class Predmet_Action_Handler
         ob_start();
 
         require_once __DIR__ . '/zaprimanje_helper.class.php';
+        require_once __DIR__ . '/suradnici_helper.class.php';
 
         try {
+            Suradnici_Helper::ensurePosiljareljiTable($db);
             Zaprimanje_Helper::ensureZaprimanjaTable($db);
             Zaprimanje_Helper::ensurePotvrdaColumn($db);
 

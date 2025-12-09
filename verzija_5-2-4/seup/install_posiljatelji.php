@@ -8,16 +8,25 @@ echo "<h1>SEUP - Instalacija Tablice Pošiljatelji</h1>";
 echo "<pre>";
 
 // Prikaži upute za pokretanje
-echo "=== UPUTE ZA INSTALACIJU ===\n\n";
-echo "Za instalaciju tablice llx_a_posiljatelji imate 2 opcije:\n\n";
+echo "=== AUTOMATSKO KREIRANJE TABLICE ===\n\n";
+echo "<span style='color: green; font-weight: bold;'>✓ TABLICA SE AUTOMATSKI KREIRA!</span>\n\n";
+echo "Tablica llx_a_posiljatelji će biti automatski kreirana\n";
+echo "prilikom prvog pristupa stranicama:\n";
+echo "  - /custom/seup/pages/suradnici.php\n";
+echo "  - /custom/seup/pages/predmet.php (zaprimanja)\n";
+echo "  - /custom/seup/pages/zaprimanja.php\n\n";
 
-echo "OPCIJA 1 - AUTOMATSKA INSTALACIJA (PREPORUČENO):\n";
+echo "Nema potrebe za ručnom instalacijom!\n\n";
+
+echo "=== AKO ŽELITE RUČNU INSTALACIJU ===\n\n";
+
+echo "OPCIJA 1 - PREKO DOLIBARR MODULA:\n";
 echo "1. Idi u Dolibarr → Setup → Modules\n";
 echo "2. Deaktiviraj SEUP modul\n";
 echo "3. Ponovno aktiviraj SEUP modul\n";
 echo "   (To će automatski pokrenuti sve SQL skripte iz /seup/sql/)\n\n";
 
-echo "OPCIJA 2 - RUČNA INSTALACIJA:\n";
+echo "OPCIJA 2 - DIREKTAN SQL:\n";
 echo "1. Pokreni SQL skriptu na MariaDB bazi:\n";
 echo "   mysql -u [korisnik] -p [baza] < " . __DIR__ . "/sql/a_posiljatelji.sql\n\n";
 

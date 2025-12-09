@@ -64,6 +64,9 @@ require_once __DIR__ . '/../class/predmet_action_handler.class.php';
 require_once __DIR__ . '/../class/predmet_data_loader.class.php';
 require_once __DIR__ . '/../class/predmet_view.class.php';
 require_once __DIR__ . '/../class/request_handler.class.php';
+require_once __DIR__ . '/../class/suradnici_helper.class.php';
+
+Suradnici_Helper::ensurePosiljareljiTable($db);
 
 $langs->loadLangs(array("seup@seup"));
 
