@@ -65,20 +65,8 @@ function seup_db_prefix($db) {
 }
 $TABLE_POS = seup_db_prefix($db) . 'a_posiljatelji';
 
-// === Create-if-not-exists tablica za Treće Osobe (a_posiljatelji) ===
-$db->query("CREATE TABLE IF NOT EXISTS `".$db->escape($TABLE_POS)."`(
-  `rowid` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `naziv` VARCHAR(255) NOT NULL,
-  `adresa` VARCHAR(255) DEFAULT NULL,
-  `oib` VARCHAR(32) DEFAULT NULL,
-  `telefon` VARCHAR(64) DEFAULT NULL,
-  `kontakt_osoba` VARCHAR(255) DEFAULT NULL,
-  `email` VARCHAR(255) DEFAULT NULL,
-  `datec` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tms` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY(`rowid`),
-  UNIQUE KEY `uq_oib` (`oib`)
-) ENGINE=InnoDB");
+// === Tablica llx_a_posiljatelji se kreira putem SQL migracije (sql/a_posiljatelji.sql) ===
+// Nema dinamičkog kreiranja tablice ovdje - tablica mora biti kreirana prije korištenja
 
 // === Create-if-not-exists tablica za Vrste Arhivskog Gradiva (a_arhivska_gradiva) ===
 $TABLE_ARH = seup_db_prefix($db) . 'a_arhivska_gradiva';

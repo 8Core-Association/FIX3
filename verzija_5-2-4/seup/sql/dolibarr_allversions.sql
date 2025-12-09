@@ -364,10 +364,38 @@ CREATE TABLE IF NOT EXISTS llx_a_otprema (
 
 
 -- =============================================================================
--- TABLE: a_zaprimanja
+-- TABLE: a_posiljatelji
+-- Purpose: Registry of senders, recipients and collaborators
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS llx_a_posiljatelji (
+    rowid int(11) NOT NULL AUTO_INCREMENT,
+
+    -- Basic information
+    naziv varchar(255) NOT NULL COMMENT 'Sender/collaborator name',
+    adresa varchar(255) DEFAULT NULL COMMENT 'Address',
+    oib varchar(32) DEFAULT NULL COMMENT 'OIB (unique)',
+    telefon varchar(64) DEFAULT NULL COMMENT 'Phone number',
+    kontakt_osoba varchar(255) DEFAULT NULL COMMENT 'Contact person',
+    email varchar(255) DEFAULT NULL COMMENT 'Email address',
+
+    -- Metadata
+    datec datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Creation date',
+    tms timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last modification time',
+    entity int(11) NOT NULL DEFAULT 1 COMMENT 'Multi-company entity ID',
+
+    PRIMARY KEY (rowid),
+    UNIQUE KEY uq_oib (oib),
+    KEY idx_naziv (naziv),
+    KEY idx_email (email),
+    KEY idx_entity (entity)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Registry of senders and collaborators';
+
+
+-- =============================================================================
+-- TABLE: a_zaprimanje
 -- Purpose: Incoming document reception tracking
 -- =============================================================================
-CREATE TABLE IF NOT EXISTS llx_a_zaprimanja (
+CREATE TABLE IF NOT EXISTS llx_a_zaprimanje (
     ID_zaprimanja int(11) NOT NULL AUTO_INCREMENT,
 
     -- Link to subject/case
@@ -378,7 +406,7 @@ CREATE TABLE IF NOT EXISTS llx_a_zaprimanja (
     tip_dokumenta varchar(50) DEFAULT 'nedodjeljeno' COMMENT 'Type of received document',
 
     -- Sender (link to third parties)
-    fk_posiljatelj int(11) DEFAULT NULL COMMENT 'Link to llx_societe',
+    fk_posiljatelj int(11) DEFAULT NULL COMMENT 'Link to llx_a_posiljatelji',
     posiljatelj_naziv varchar(255) DEFAULT NULL COMMENT 'Sender name (fallback)',
     posiljatelj_broj varchar(100) DEFAULT NULL COMMENT 'Sender tracking number',
 
@@ -413,17 +441,17 @@ CREATE TABLE IF NOT EXISTS llx_a_zaprimanja (
     KEY fk_potvrda (fk_potvrda_ecm_file),
     KEY fk_akt (fk_akt_za_prilog),
 
-    CONSTRAINT fk_zaprimanja_predmet FOREIGN KEY (ID_predmeta)
+    CONSTRAINT fk_zaprimanje_predmet FOREIGN KEY (ID_predmeta)
         REFERENCES llx_a_predmet(ID_predmeta) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_zaprimanja_ecm FOREIGN KEY (fk_ecm_file)
+    CONSTRAINT fk_zaprimanje_ecm FOREIGN KEY (fk_ecm_file)
         REFERENCES llx_ecm_files(rowid) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_zaprimanja_posiljatelj FOREIGN KEY (fk_posiljatelj)
-        REFERENCES llx_societe(rowid) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT fk_zaprimanja_user FOREIGN KEY (fk_user_creat)
+    CONSTRAINT fk_zaprimanje_posiljatelj FOREIGN KEY (fk_posiljatelj)
+        REFERENCES llx_a_posiljatelji(rowid) ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT fk_zaprimanje_user FOREIGN KEY (fk_user_creat)
         REFERENCES llx_user(rowid) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT fk_zaprimanja_potvrda FOREIGN KEY (fk_potvrda_ecm_file)
+    CONSTRAINT fk_zaprimanje_potvrda FOREIGN KEY (fk_potvrda_ecm_file)
         REFERENCES llx_ecm_files(rowid) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT fk_zaprimanja_akt FOREIGN KEY (fk_akt_za_prilog)
+    CONSTRAINT fk_zaprimanje_akt FOREIGN KEY (fk_akt_za_prilog)
         REFERENCES llx_a_akti(ID_akta) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Incoming document reception tracking';
 
